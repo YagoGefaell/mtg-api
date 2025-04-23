@@ -5,6 +5,8 @@
     <title>Deck builder</title>
     <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css">
+
 </head>
 <body>
 <div id="container">
@@ -32,15 +34,33 @@
     </article>
 
     <footer id="pagination">
-            <span th:if="${currentPage > 0}">
-                <a th:href="@{'/home/?page=' + ${currentPage - 1}}">Anterior</a>
-            </span>
+        <span>
+            <a th:if="${currentPage > 0}"
+               th:href="@{/home/(page=${currentPage - 1})}"
+               class="arrowLink">
+               <i class="fi fi-sr-arrow-circle-left"></i>
+            </a>
+            <a th:if="${currentPage == 0}"
+               href="#" class="arrowLink disabled">
+               <i class="fi fi-sr-arrow-circle-left"></i>
+            </a>
+        </span>
 
-        <span>Página <span th:text="${currentPage + 1}"></span> de <span th:text="${totalPages}"></span></span>
+            <span>
+            <span th:text="${currentPage + 1}"></span> - <span th:text="${totalPages}"></span>
+        </span>
 
-        <span th:if="${currentPage < totalPages - 1}">
-                <a th:href="@{'/home/?page=' + ${currentPage + 1}}">Siguiente</a>
-            </span>
+        <span>
+            <a th:if="${currentPage < totalPages - 1}"
+               th:href="@{/home/(page=${currentPage + 1})}"
+               class="arrowLink">
+               <i class="fi fi-sr-arrow-circle-right"></i>
+            </a>
+            <a th:if="${currentPage >= totalPages - 1}"
+               href="#" class="arrowLink disabled">
+               <i class="fi fi-sr-arrow-circle-right"></i>
+            </a>
+        </span>
     </footer>
 </div>
 </body>

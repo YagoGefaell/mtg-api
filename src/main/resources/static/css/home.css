@@ -58,7 +58,7 @@ a {
     font-size: 16px;
 }
 
-a:hover {
+nav a:hover {
     text-decoration: underline;
 }
 
@@ -97,15 +97,28 @@ i {
 }
 
 #pagination {
-    width: 935px;
+    width: 910px;
     margin: auto;
-    text-align: center;
+    line-height: 30px;
+    display: flex;
+    justify-content: space-around;
 }
 
 #pagination a {
     color: #ccc5eb;
 }
 
-span {
+span{
     color: #ccc5eb;
+}
+
+.arrowLink i{
+    color: #ccc5eb;
+    fill: #ccc5eb;
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: default;
 }
