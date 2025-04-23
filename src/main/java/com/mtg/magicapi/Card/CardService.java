@@ -23,22 +23,16 @@ public class CardService {
         return cardRepository.findAll(pageable);
     }
 
-    public List<Card> getCardsFromId(Integer id) {
-        return cardRepository.findAll().stream()
-                .filter(card -> card.getId() == id)
-                .collect(Collectors.toList());
-    }
-
     public Page<Card> getCardsFromName(String searchText, Pageable pageable) {
         return cardRepository.findByNameContainingIgnoreCase(searchText, pageable);
     }
 
-    public List<Card> getCardsFromType(String type) {
-        return cardRepository.findByTypeLineContainingIgnoreCase(type);
+    public Page<Card> getCardsFromType(String type, Pageable pageable) {
+        return cardRepository.findByTypeLineContainingIgnoreCase(type, pageable);
     }
 
-    public List<Card> getCardsFromRarity(String rarity) {
-        return cardRepository.findByRarity(rarity);
+    public Page<Card> getCardsFromRarity(String rarity, Pageable pageable) {
+        return cardRepository.findByRarity(rarity, pageable);
     }
 
     public Card addCard(Card card) {

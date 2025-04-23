@@ -11,8 +11,8 @@ import java.util.Optional;
 @Repository
 public interface CardRepository extends JpaRepository<Card, String>{
     Page<Card> findByNameContainingIgnoreCase(String name , Pageable pageable);
-    List<Card> findByTypeLineContainingIgnoreCase(String typeLine);
-    List<Card> findByRarity(String rarity);
+    Page<Card> findByTypeLineContainingIgnoreCase(String typeLine, Pageable pageable);
+    Page<Card> findByRarity(String rarity, Pageable pageable);
     Optional<Card> findByName(String name);
     void deleteByName(String name);
 }
