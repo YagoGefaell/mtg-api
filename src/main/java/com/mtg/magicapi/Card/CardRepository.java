@@ -14,5 +14,4 @@ public interface CardRepository extends JpaRepository<Card, String>{
     Page<Card> findByTypeLineContainingIgnoreCase(String typeLine, Pageable pageable);
     Page<Card> findByRarity(String rarity, Pageable pageable);
     Optional<Card> findByName(String name);
-    void deleteByName(String name);
 }

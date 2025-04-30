@@ -13,7 +13,7 @@
     <header>
         <nav>
             <div id="searchBar">
-                <form action="/home/search/" method="get">
+                <form action="/mtg/search" method="get">
                     <input type="text" name="name" id="searchInput">
                     <button type="submit"><i class="fi fi-rr-search"></i></button>
                 </form>
@@ -35,8 +35,8 @@
 
     <footer id="pagination">
         <span>
-            <a th:if="${currentPage > 0}"
-               th:href="@{/home/(page=${currentPage - 1})}"
+            <a th:if="${currentPage > 1}"
+               th:href="@{/mtg(page=${currentPage - 1})}"
                class="arrowLink">
                <i class="fi fi-sr-arrow-circle-left"></i>
             </a>
@@ -47,12 +47,12 @@
         </span>
 
             <span>
-            <span th:text="${currentPage + 1}"></span> - <span th:text="${totalPages}"></span>
+            <span th:text="${currentPage}"></span> - <span th:text="${totalPages - 1}"></span>
         </span>
 
         <span>
             <a th:if="${currentPage < totalPages - 1}"
-               th:href="@{/home/(page=${currentPage + 1})}"
+               th:href="@{/mtg(page=${currentPage + 1})}"
                class="arrowLink">
                <i class="fi fi-sr-arrow-circle-right"></i>
             </a>

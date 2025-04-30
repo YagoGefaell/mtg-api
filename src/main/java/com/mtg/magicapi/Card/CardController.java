@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/home")
+@RequestMapping("/mtg")
 public class CardController {
 
     @Autowired
     private CardService cardService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public String home(Model model, @RequestParam(defaultValue = "0") int page) {
         Pageable pageable = PageRequest.of(page, 30);
         Page<Card> allCards = cardService.getCards(pageable);
@@ -28,8 +28,8 @@ public class CardController {
         return "home";
     }
 
-    @GetMapping("/search/")
-    public String searchCards(@RequestParam("name") String name, Model model, @RequestParam(defaultValue = "0") int page) {
+    @GetMapping("/search")
+    public String searchCards(Model model, @RequestParam("name") String name, @RequestParam(defaultValue = "0") int page) {
         Pageable pageable = PageRequest.of(page, 30);
         Page<Card> cards = cardService.getCardsFromName(name, pageable);
         model.addAttribute("cards", cards.getContent());

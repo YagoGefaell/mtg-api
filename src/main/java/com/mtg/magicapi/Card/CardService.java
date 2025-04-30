@@ -34,31 +34,4 @@ public class CardService {
     public Page<Card> getCardsFromRarity(String rarity, Pageable pageable) {
         return cardRepository.findByRarity(rarity, pageable);
     }
-
-    public Card addCard(Card card) {
-        cardRepository.save(card);
-        return card;
-    }
-
-    public Card updateCard(Card updatedCard) {
-        Optional<Card> existingCard = cardRepository.findByName(updatedCard.getName());
-
-        if (existingCard.isPresent()) {
-            Card cardToUpdate = existingCard.get();
-            cardToUpdate.setManaValue(updatedCard.getManaValue());
-            cardToUpdate.setName(updatedCard.getName());
-            cardToUpdate.setTypeLine(updatedCard.getTypeLine());
-            cardToUpdate.setRarity(updatedCard.getRarity());
-            cardToUpdate.setImageUrl(updatedCard.getImageUrl());
-
-            cardRepository.save(cardToUpdate);
-            return cardToUpdate;
-        }
-        return null;
-    }
-
-    @Transactional
-    public void deleteCard(String name) {
-        cardRepository.deleteByName(name);
-    }
 }
