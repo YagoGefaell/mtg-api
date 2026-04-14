@@ -1,6 +1,7 @@
 package com.mtg.magicApi.card.service;
 
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -24,31 +25,33 @@ public class MtgService {
     public Mono<ScryfallList<CardRecord>> getCardsByName(String name) {
         return this.webClient.get()
                 .uri(uriBuilder -> uriBuilder
-                        .path("/cards")
-                        .queryParam("name", name)
+                        .path("/cards/search")
+                        .queryParam("q", name) // Scryfall usa 'q' para búsquedas
                         .build())
                 .retrieve()
-                .bodyToMono(CARD_LIST_TYPE);
+                .bodyToMono(CARD_LIST_TYPE)
+                .onErrorResume(e -> Mono.empty()); // Si no hay resultados, devuelve vacío en lugar de 500
     }
 
     public Mono<CardRecord> getCardById(String id) {
         return this.webClient.get()
                 .uri("/cards/{id}", id)
                 .retrieve()
-                // Si la carta no existe, puedes manejar el error 404 aquí
-                .onStatus(status -> status.is4xxClientError(),
-                        response -> Mono.error(new RuntimeException("Carta no encontrada")))
+                .onStatus(HttpStatusCode::is4xxClientError,
+                        response -> Mono.error(new RuntimeException("Carta con ID " + id + " no encontrada")))
                 .bodyToMono(CardRecord.class);
     }
 
     public Mono<ScryfallList<CardRecord>> getCardsByFilters(String colors, String type, int page) {
+        StringBuilder query = new StringBuilder();
+        if (colors != null && !colors.isEmpty()) query.append("c:").append(colors).append(" ");
+        if (type != null && !type.isEmpty()) query.append("t:").append(type);
+
         return this.webClient.get()
                 .uri(uriBuilder -> uriBuilder
-                        .path("/cards")
-                        .queryParam("colors", colors)
-                        .queryParam("type", type)
+                        .path("/cards/search")
+                        .queryParam("q", query.toString().trim())
                         .queryParam("page", page)
-                        .queryParam("pageSize", 20) // Limitamos para no saturar
                         .build())
                 .retrieve()
                 .bodyToMono(CARD_LIST_TYPE);
@@ -64,8 +67,8 @@ public class MtgService {
     public Mono<ScryfallList<CardRecord>> getCardsBySet(String setCode) {
         return this.webClient.get()
                 .uri(uriBuilder -> uriBuilder
-                        .path("/cards")
-                        .queryParam("set", setCode)
+                        .path("/cards/search")
+                        .queryParam("q", "set:" + setCode)
                         .build())
                 .retrieve()
                 .bodyToMono(CARD_LIST_TYPE);
