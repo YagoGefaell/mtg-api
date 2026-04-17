@@ -73,4 +73,16 @@ public class MtgService {
                 .retrieve()
                 .bodyToMono(CARD_LIST_TYPE);
     }
+
+    public Mono<ScryfallList<CardRecord>> getAllCards(int page) {
+        return this.webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/cards/search")
+                        .queryParam("q", "*")
+                        .queryParam("order", "released")
+                        .queryParam("page", page)
+                        .build())
+                .retrieve()
+                .bodyToMono(CARD_LIST_TYPE);
+    }
 }

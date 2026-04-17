@@ -11,6 +11,9 @@ public class WebClientConfig {
     public WebClient mtgWebClient() {
         return WebClient.builder()
                 .baseUrl("https://api.scryfall.com")
+                .codecs(configurer -> configurer
+                    .defaultCodecs()
+                    .maxInMemorySize(10 * 1024 * 1024))
                 .build();
     }
 }

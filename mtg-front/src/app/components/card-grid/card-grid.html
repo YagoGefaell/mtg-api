@@ -1,0 +1,12 @@
+
+<div class="p-8 bg-gray-900 min-h-screen">
+  <h1 class="text-3xl font-bold text-white mb-6">Mis Cartas de MTG</h1>
+  
+  <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+    @for (card of cards; track card.id) {
+      <app-card-item [card]="card"></app-card-item>
+    } @empty {
+      <p class="text-gray-400">No se encontraron cartas...</p>
+    }
+  </div>
+</div>

@@ -55,4 +55,11 @@ public class CardController {
             @Parameter(description = "Código del set (ej: 'zen', 'war')") @PathVariable String setCode) {
         return this.mtgService.getCardsBySet(setCode);
     }
+
+    @Operation(summary = "Listar todas las cartas", description = "Obtiene cartas de forma paginada usando el parámetro page de Scryfall.")
+    @GetMapping("/cards/all")
+    public Mono<ScryfallList<CardRecord>> getAllCards(
+            @Parameter(description = "Número de página para paginación") @RequestParam(defaultValue = "1") int page) {
+        return this.mtgService.getAllCards(page);
+    }
 }
